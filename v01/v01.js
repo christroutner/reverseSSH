@@ -2,8 +2,11 @@ var express = require('express');
 
 var http = require('http');
 
+//tunnel is a ssh2 clientConnection object 
+var tunnel = require('reverse-tunnel-ssh');
+
 //Library used to find local IP address.
-var ip = require('ip');
+//var ip = require('ip');
 
 
 /*
@@ -51,7 +54,7 @@ app.get('/', function(request, response, next) {
 });
 
 
-
+/*
 console.log('My local IP: '+ip.address());
 
 
@@ -62,7 +65,19 @@ http.get('http://bot.whatismyipaddress.com', function(res){
         console.log('My external IP: '+chunk);
     });
 });
+*/
 
+tunnel({
+  host: 'localhost',
+  username: 'user-ssh',
+  dstHost: '0.0.0.0', // bind to all IPv4 interfaces 
+  dstPort: 19999,
+  //srcHost: '127.0.0.1', // default 
+  //srcPort: dstPort // default is the same as dstPort 
+}, function(error, clientConnection) {
+  debugger;
+  console.log('Reverse SSH successful!');
+});
 
 /* Start up the Express web server */
 app.listen(process.env.PORT || port);
