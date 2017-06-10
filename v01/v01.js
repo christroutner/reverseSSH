@@ -1,9 +1,11 @@
 var express = require('express');
 
 var http = require('http');
+var exec = require('child_process').exec; //Used to execute command line instructions.
+
 
 //tunnel is a ssh2 clientConnection object 
-var tunnel = require('reverse-tunnel-ssh');
+//var tunnel = require('reverse-tunnel-ssh');
 
 //Library used to find local IP address.
 //var ip = require('ip');
@@ -67,6 +69,7 @@ http.get('http://bot.whatismyipaddress.com', function(res){
 });
 */
 
+/*
 tunnel({
   host: 'localhost',
   username: 'user-ssh',
@@ -78,6 +81,21 @@ tunnel({
   debugger;
   console.log('Reverse SSH successful!');
 });
+*/
+
+exec("ssh -R 19999:localhost:22 user-ssh@104.236.184.95", function(error, stdout, stderr) {
+  debugger;
+  
+  if (error) {
+    console.error(`exec error: ${error}`);
+    return;
+  }
+  
+  console.log('ssh command executed');
+  console.log('stdout: '+stdout);
+  console.log('stderr: '+stderr);
+});
+
 
 /* Start up the Express web server */
 app.listen(process.env.PORT || port);
