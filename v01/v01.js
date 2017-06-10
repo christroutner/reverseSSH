@@ -83,7 +83,7 @@ tunnel({
 });
 */
 
-exec("ssh -R 19999:localhost:22 user-ssh@104.236.184.95", function(error, stdout, stderr) {
+exec("ssh -R 19999:localhost:22 user-ssh@104.236.184.95 &", function(error, stdout, stderr) {
   debugger;
   
   if (error) {
